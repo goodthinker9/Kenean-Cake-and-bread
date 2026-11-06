@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #FAF7F5;
+    color: #261814;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+.sweet-gradient {
+  background: linear-gradient(135deg, #FFF1F2 0%, #FCE7F3 50%, #FAF5FF 100%);
+}
+
+.sweet-banner-gradient {
+  background: linear-gradient(90deg, #FDF2F8 0%, #FCE7F3 60%, #FFF1F2 100%);
+}
+
+.sweet-dark {
+  background-color: #38121A;
+}
