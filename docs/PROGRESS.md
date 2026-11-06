@@ -33,7 +33,7 @@
 
 | # | Branch | Status | Date | Summary |
 |---|--------|--------|------|---------|
-| 0 | `slice/0-supabase-connection` | 🔄 In progress | 2026-11-06 | Supabase connection, migrate, seed, update README/.env.example |
+| 0 | `slice/0-supabase-connection` | ✅ Done | 2026-11-06 | Supabase connection, migrate, seed, update README/.env.example |
 
 ---
 
