@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -78,6 +79,15 @@ return new class extends Migration
             $table->string('group')->default('general');
             $table->timestamps();
         });
+
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE reviews ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE promotions ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE promotion_products ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE notifications ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE app_settings ENABLE ROW LEVEL SECURITY');
+        }
     }
 
     public function down(): void

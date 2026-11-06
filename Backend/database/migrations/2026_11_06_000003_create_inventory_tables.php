@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -49,6 +50,11 @@ return new class extends Migration
             $table->foreign('product_id')->references('product_id')->on('products')->cascadeOnDelete();
             $table->foreign('created_by')->references('user_id')->on('users')->nullOnDelete();
         });
+
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE branch_inventory ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE inventory_transactions ENABLE ROW LEVEL SECURITY');
+        }
     }
 
     public function down(): void

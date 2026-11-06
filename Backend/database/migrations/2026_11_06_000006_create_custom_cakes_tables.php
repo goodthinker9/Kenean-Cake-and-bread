@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -47,6 +48,11 @@ return new class extends Migration
 
             $table->foreign('request_id')->references('request_id')->on('custom_cake_requests')->cascadeOnDelete();
         });
+
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE custom_cake_requests ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE custom_cake_images ENABLE ROW LEVEL SECURITY');
+        }
     }
 
     public function down(): void

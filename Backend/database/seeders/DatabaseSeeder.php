@@ -28,10 +28,18 @@ use App\Models\Notification;
 use App\Models\AuditLog;
 use App\Models\AppSetting;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
+    {
+        DB::transaction(function () {
+            $this->seed();
+        });
+    }
+
+    private function seed(): void
     {
         // 1. Settings
         $settings = [
@@ -972,5 +980,5 @@ class DatabaseSeeder extends Seeder
                 'created_at' => $l[8],
             ]);
         }
-    }
-}
+    } // end seed()
+} // end DatabaseSeeder

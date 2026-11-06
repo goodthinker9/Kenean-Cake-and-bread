@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -75,6 +76,13 @@ return new class extends Migration
             $table->foreign('request_id')->references('request_id')->on('stock_requests')->cascadeOnDelete();
             $table->foreign('product_id')->references('product_id')->on('products')->cascadeOnDelete();
         });
+
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE stock_transfers ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE stock_transfer_items ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE stock_requests ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE stock_request_items ENABLE ROW LEVEL SECURITY');
+        }
     }
 
     public function down(): void

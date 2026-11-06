@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -99,6 +100,15 @@ return new class extends Migration
 
             $table->foreign('order_id')->references('order_id')->on('orders')->cascadeOnDelete();
         });
+
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE carts ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE cart_items ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE orders ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE order_items ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE order_status_history ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE payments ENABLE ROW LEVEL SECURITY');
+        }
     }
 
     public function down(): void

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -85,6 +86,18 @@ return new class extends Migration
 
             $table->foreign('branch_id')->references('branch_id')->on('branches')->cascadeOnDelete();
         });
+
+        // Enable Row Level Security on all tables in this migration.
+        // No policies are added — Laravel connects as the DB owner and bypasses RLS.
+        // This satisfies the spec requirement: RLS enabled, no policies.
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE branches ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE users ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE password_reset_tokens ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE sessions ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE addresses ENABLE ROW LEVEL SECURITY');
+            DB::statement('ALTER TABLE delivery_zones ENABLE ROW LEVEL SECURITY');
+        }
     }
 
     public function down(): void
