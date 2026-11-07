@@ -107,6 +107,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const route = useRoute();
 const searchNumber = ref(route.query.order || 'ORD-1001');
@@ -125,7 +126,7 @@ const searchOrder = async () => {
     if (found) {
       order.value = found;
     } else {
-      alert(`Order ${searchNumber.value} not found.`);
+      toast.error(`Order ${searchNumber.value} not found.`);
     }
   } catch (err) {
     console.error(err);

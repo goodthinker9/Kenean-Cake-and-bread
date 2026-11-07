@@ -283,6 +283,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const router = useRouter();
 
@@ -392,10 +393,10 @@ const saveTransfer = async (status) => {
 const testReceiptConfirmation = () => {
   const line = receivingExample.value[0];
   if (line.received + line.damaged + line.missing !== line.sent) {
-    alert('Received + damaged + missing must equal sent (100).');
+    toast.error('Received + damaged + missing must equal the sent quantity.');
     return;
   }
-  alert(`Receipt verified: ${line.received} units added to destination on hand. Discrepancy logged: ${line.missing} missing.`);
+  toast.success(`Receipt verified: ${line.received} units received. ${line.missing} units missing.`);
 };
 
 onMounted(() => {

@@ -261,8 +261,8 @@ const saveSettings = async () => {
     await api.post('/admin/settings', form.value);
     successMsg.value = 'Settings saved successfully.';
     setTimeout(() => { successMsg.value = ''; }, 3000);
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to save settings');
+  } catch {
+    // The API interceptor displays the request error.
   } finally {
     saving.value = false;
   }

@@ -167,7 +167,9 @@ onMounted(async () => {
   try {
     const bRes = await api.get('/branches');
     branchesList.value = bRes.data;
-  } catch (e) {}
+  } catch {
+    // The API interceptor displays the request error.
+  }
   loadLogs();
 });
 </script>

@@ -1,98 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
-import AdminLayout from '../layouts/AdminLayout.vue';
-import CustomerLayout from '../layouts/CustomerLayout.vue';
-
-// Admin views
-import OverviewView from '../views/admin/OverviewView.vue';
-import BranchManagementView from '../views/admin/BranchManagementView.vue';
-import UsersRolesView from '../views/admin/UsersRolesView.vue';
-import ProductsPricesView from '../views/admin/ProductsPricesView.vue';
-import InventoryView from '../views/admin/InventoryView.vue';
-import DistributionView from '../views/admin/DistributionView.vue';
-import NewTransferView from '../views/admin/NewTransferView.vue';
-import OrdersView from '../views/admin/OrdersView.vue';
-import CustomCakesView from '../views/admin/CustomCakesView.vue';
-import PaymentsView from '../views/admin/PaymentsView.vue';
-import ReportsView from '../views/admin/ReportsView.vue';
-import NotificationsView from '../views/admin/NotificationsView.vue';
-import SettingsView from '../views/admin/SettingsView.vue';
-import AuditLogView from '../views/admin/AuditLogView.vue';
-
-// Customer views (SweetBakes theme)
-import CustomerHomeView from '../views/customer/CustomerHomeView.vue';
-import ShopView from '../views/customer/ShopView.vue';
-import ProductDetailView from '../views/customer/ProductDetailView.vue';
-import CartView from '../views/customer/CartView.vue';
-import CheckoutView from '../views/customer/CheckoutView.vue';
-import CustomCakeBuilderView from '../views/customer/CustomCakeBuilderView.vue';
-import BranchesView from '../views/customer/BranchesView.vue';
-import OrderStatusView from '../views/customer/OrderStatusView.vue';
-import OrderTrackingView from '../views/customer/OrderTrackingView.vue';
-import LoginView from '../views/customer/LoginView.vue';
-import RegisterView from '../views/customer/RegisterView.vue';
-import ContactView from '../views/customer/ContactView.vue';
-import AboutView from '../views/customer/AboutView.vue';
-import AccountView from '../views/customer/AccountView.vue';
+import { toast } from '../services/feedback';
 
 const routes = [
-  // Admin Portal Routes
   {
     path: '/admin',
-    component: AdminLayout,
+    component: () => import('../layouts/AdminLayout.vue'),
     redirect: '/admin/overview',
     children: [
-      { path: 'overview', component: OverviewView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin'] } },
-      { path: 'branches', component: BranchManagementView, meta: { roles: ['Super Admin'] } },
-      { path: 'users', component: UsersRolesView, meta: { roles: ['Super Admin', 'Main Branch Manager'] } },
-      { path: 'products', component: ProductsPricesView, meta: { roles: ['Super Admin'] } },
-      { path: 'inventory', component: InventoryView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
-      { path: 'distribution', component: DistributionView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
-      { path: 'transfers/new', component: NewTransferView, meta: { roles: ['Super Admin', 'Main Branch Manager'] } },
-      { path: 'orders', component: OrdersView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
-      { path: 'custom-cakes', component: CustomCakesView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin'] } },
-      { path: 'payments', component: PaymentsView, meta: { roles: ['Super Admin', 'Main Branch Manager'] } },
-      { path: 'reports', component: ReportsView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin'] } },
-      { path: 'notifications', component: NotificationsView, meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
-      { path: 'settings', component: SettingsView, meta: { roles: ['Super Admin'] } },
-      { path: 'audit-logs', component: AuditLogView, meta: { roles: ['Super Admin'] } },
+      { path: 'overview', component: () => import('../views/admin/OverviewView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin'] } },
+      { path: 'branches', component: () => import('../views/admin/BranchManagementView.vue'), meta: { roles: ['Super Admin'] } },
+      { path: 'users', component: () => import('../views/admin/UsersRolesView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager'] } },
+      { path: 'products', component: () => import('../views/admin/ProductsPricesView.vue'), meta: { roles: ['Super Admin'] } },
+      { path: 'inventory', component: () => import('../views/admin/InventoryView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
+      { path: 'distribution', component: () => import('../views/admin/DistributionView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
+      { path: 'transfers/new', component: () => import('../views/admin/NewTransferView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager'] } },
+      { path: 'orders', component: () => import('../views/admin/OrdersView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
+      { path: 'custom-cakes', component: () => import('../views/admin/CustomCakesView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin'] } },
+      { path: 'payments', component: () => import('../views/admin/PaymentsView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager'] } },
+      { path: 'reports', component: () => import('../views/admin/ReportsView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin'] } },
+      { path: 'notifications', component: () => import('../views/admin/NotificationsView.vue'), meta: { roles: ['Super Admin', 'Main Branch Manager', 'Branch Admin', 'Branch Staff'] } },
+      { path: 'settings', component: () => import('../views/admin/SettingsView.vue'), meta: { roles: ['Super Admin'] } },
+      { path: 'audit-logs', component: () => import('../views/admin/AuditLogView.vue'), meta: { roles: ['Super Admin'] } },
     ],
   },
-
-  // Customer SweetBakes Storefront Routes
   {
     path: '/',
-    component: CustomerLayout,
+    component: () => import('../layouts/CustomerLayout.vue'),
     children: [
-      { path: '', component: CustomerHomeView },
-      { path: 'home', component: CustomerHomeView },
-      { path: 'shop', component: ShopView },
+      { path: '', component: () => import('../views/customer/CustomerHomeView.vue') },
+      { path: 'home', component: () => import('../views/customer/CustomerHomeView.vue') },
+      { path: 'shop', component: () => import('../views/customer/ShopView.vue') },
       { path: 'cakes-and-bread', redirect: '/shop' },
-      { path: 'product/:id', component: ProductDetailView },
-      { path: 'cart', component: CartView },
-      { path: 'checkout', component: CheckoutView },
-      { path: 'custom-cake', component: CustomCakeBuilderView },
+      { path: 'product/:id', component: () => import('../views/customer/ProductDetailView.vue') },
+      { path: 'cart', component: () => import('../views/customer/CartView.vue') },
+      { path: 'checkout', component: () => import('../views/customer/CheckoutView.vue') },
+      { path: 'custom-cake', component: () => import('../views/customer/CustomCakeBuilderView.vue') },
       { path: 'custom-cakes-builder', redirect: '/custom-cake' },
-      { path: 'branches', component: BranchesView },
-      { path: 'orders/:order_number', component: OrderStatusView },
-      { path: 'track-order', component: OrderTrackingView },
-      { path: 'login', component: LoginView },
-      { path: 'register', component: RegisterView },
-      { path: 'contact', component: ContactView },
-      { path: 'about', component: AboutView },
-      { path: 'account', component: AccountView },
+      { path: 'branches', component: () => import('../views/customer/BranchesView.vue') },
+      { path: 'orders/:order_number', component: () => import('../views/customer/OrderStatusView.vue') },
+      { path: 'track-order', component: () => import('../views/customer/OrderTrackingView.vue') },
+      { path: 'login', component: () => import('../views/customer/LoginView.vue') },
+      { path: 'register', component: () => import('../views/customer/RegisterView.vue') },
+      { path: 'contact', component: () => import('../views/customer/ContactView.vue') },
+      { path: 'about', component: () => import('../views/customer/AboutView.vue') },
+      { path: 'account', component: () => import('../views/customer/AccountView.vue') },
       { path: 'my-orders', redirect: '/account' },
     ],
   },
-
-  // Legacy fallback
   { path: '/store', redirect: '/' },
-
-  // Catch-all
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/',
-  },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
 
 const router = createRouter({
@@ -103,28 +59,24 @@ const router = createRouter({
   },
 });
 
-// Navigation Guard for Role Enforcement
-router.beforeEach((to, from, next) => {
-  if (to.path.startsWith('/admin')) {
-    const rawUser = localStorage.getItem('user');
-    const user = rawUser ? JSON.parse(rawUser) : null;
-    const role = user?.role || 'Super Admin';
+router.beforeEach((to) => {
+  if (!to.path.startsWith('/admin')) return true;
 
-    if (role === 'Customer') {
-      alert('Access denied: Customer accounts cannot access the bakery admin portal.');
-      return next('/');
-    }
+  const rawUser = localStorage.getItem('user');
+  const user = rawUser ? JSON.parse(rawUser) : null;
+  const role = user?.role || 'Super Admin';
 
-    if (to.meta?.roles && !to.meta.roles.includes(role)) {
-      alert(`Access restricted: The "${to.path.replace('/admin/', '')}" page is only accessible to: ${to.meta.roles.join(', ')}.`);
-      if (role === 'Branch Staff') {
-        return next('/admin/orders');
-      }
-      return next('/admin/overview');
-    }
+  if (role === 'Customer') {
+    toast.error('Access denied: Customer accounts cannot access the bakery admin portal.');
+    return '/';
   }
 
-  next();
+  if (to.meta?.roles && !to.meta.roles.includes(role)) {
+    toast.error(`Access restricted: The "${to.path.replace('/admin/', '')}" page is only accessible to: ${to.meta.roles.join(', ')}.`);
+    return role === 'Branch Staff' ? '/admin/orders' : '/admin/overview';
+  }
+
+  return true;
 });
 
 export default router;

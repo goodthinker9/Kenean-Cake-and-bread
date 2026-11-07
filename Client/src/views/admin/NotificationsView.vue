@@ -130,6 +130,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const activeCategory = ref('All');
 const unreadCount = ref(5);
@@ -173,9 +174,9 @@ const markAllAsRead = async () => {
 const saveAlertRules = async () => {
   try {
     await api.post('/admin/notifications/alert-rules', alertRules.value);
-    alert('Alert rules saved successfully.');
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to save alert rules');
+    toast.success('Alert rules saved successfully.');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 

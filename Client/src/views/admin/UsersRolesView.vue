@@ -401,7 +401,7 @@ const submitAddUser = async () => {
   successMsg.value = '';
   errorMsg.value = '';
   try {
-    const res = await api.post('/admin/users', newUser.value);
+    await api.post('/admin/users', newUser.value);
     successMsg.value = `User invitation sent to ${newUser.value.email} (${newUser.value.role})!`;
     newUser.value = {
       full_name: '',

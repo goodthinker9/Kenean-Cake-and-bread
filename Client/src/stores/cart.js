@@ -40,7 +40,6 @@ export const useCartStore = defineStore('cart', {
       const existing = this.items.find((i) => i.product_id === product.product_id);
       if (existing) {
         if (existing.quantity + requestedQty > available) {
-          const added = Math.max(0, available - existing.quantity);
           existing.quantity = available;
           this.save();
           return {

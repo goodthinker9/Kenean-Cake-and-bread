@@ -306,8 +306,8 @@ const submitResolve = async () => {
     successMsg.value = `Dispute for ${activeDispute.value.transfer} resolved successfully!`;
     activeDispute.value = null;
     await loadDashboard();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to resolve dispute');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 
@@ -320,8 +320,8 @@ const dispatchTransfer = async (t) => {
     await api.post(`/admin/transfers/${t.transfer_id}/dispatch`);
     successMsg.value = `Transfer ${t.transfer} dispatched to ${t.branch}!`;
     await loadDashboard();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to dispatch transfer');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 
@@ -330,8 +330,8 @@ const convertRequest = async (req) => {
     await api.post(`/admin/stock-requests/${req.request_id}/convert`);
     successMsg.value = `Stock request for ${req.qty}x ${req.product} converted to transfer!`;
     await loadDashboard();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to convert request');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 

@@ -10,7 +10,7 @@
         Baking Happiness Daily
       </h1>
       <p class="text-xs sm:text-sm text-[#7A3644] leading-relaxed">
-        Founded with a love for traditional European viennoiserie and Ethiopian hospitality, SweetBakes creates confectionary moments that bring families together.
+        Founded with a love for traditional European viennoiserie and Ethiopian hospitality, {{ appConfig.brandName }} creates confectionary moments that bring families together.
       </p>
     </div>
 
@@ -82,4 +82,5 @@
 </template>
 
 <script setup>
+import { appConfig } from '../../config';
 </script>

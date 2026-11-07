@@ -289,7 +289,9 @@ onMounted(async () => {
     ]);
     branches.value = bRes.data;
     categories.value = cRes.data;
-  } catch (e) {}
+  } catch {
+    // The API interceptor displays the request error.
+  }
   loadReport();
 });
 </script>

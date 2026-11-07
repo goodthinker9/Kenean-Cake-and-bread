@@ -182,6 +182,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const branches = ref([]);
 const selectedBranch = ref('all');
@@ -240,10 +241,10 @@ const submitQuote = async () => {
       quoted_price: quoteForm.value.quoted_price,
       deposit_required_percentage: quoteForm.value.deposit_percentage,
     });
-    alert(`Quote sent to customer for ${selectedRequest.value.request_number}: ETB ${quoteForm.value.quoted_price.toLocaleString()}`);
+    toast.success(`Quote sent to customer for ${selectedRequest.value.request_number}: ETB ${quoteForm.value.quoted_price.toLocaleString()}`);
     await loadRequests();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to submit quote');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 
@@ -254,10 +255,10 @@ const rejectRequest = async () => {
       status: 'Rejected',
       rejection_reason: rejectionReason.value || 'Cannot fulfill requested design on schedule.',
     });
-    alert(`Request ${selectedRequest.value.request_number} rejected.`);
+    toast.success(`Request ${selectedRequest.value.request_number} rejected.`);
     await loadRequests();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to reject request');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 
@@ -265,7 +266,9 @@ onMounted(async () => {
   try {
     const bRes = await api.get('/branches');
     branches.value = bRes.data;
-  } catch (e) {}
+  } catch {
+    // The API interceptor displays the request error.
+  }
   loadRequests();
 });
 </script>

@@ -307,7 +307,7 @@
               <input v-model="userEmail" disabled class="w-full bg-[#E5E7EB] border border-[#D1D5DB] rounded-xl px-4 py-2 text-xs text-gray-500" />
             </div>
           </div>
-          <button @click="alert('Profile updated successfully!')" class="px-6 py-2.5 bg-[#E11D48] text-white rounded-xl font-bold">
+          <button @click="toast.success('Profile updated successfully!')" class="px-6 py-2.5 bg-[#E11D48] text-white rounded-xl font-bold">
             Save Changes
           </button>
         </div>
@@ -333,6 +333,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const router = useRouter();
 const route = useRoute();
@@ -467,10 +468,10 @@ async function acceptQuote(cake, choice) {
       payment_choice: choice,
       payment_method: 'Chapa',
     });
-    alert(`Custom cake quote accepted! Status updated to Confirmed. The baking team has been notified.`);
+    toast.success('Custom cake quote accepted. The baking team has been notified.');
     await loadData();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to accept quote.');
+  } catch {
+    // The API interceptor displays the request error.
   }
 }
 
@@ -482,10 +483,10 @@ async function cancelCake(cake) {
     const res = await api.post(`/custom-cakes/${cake.request_id}/cancel`, {
       reason: reason || 'Cancelled by customer',
     });
-    alert(`Custom cake request cancelled. Refund policy applied: ${res.data.refund_policy_applied || 'N/A'}`);
+    toast.success(`Custom cake request cancelled. Refund policy applied: ${res.data.refund_policy_applied || 'N/A'}`);
     await loadData();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to cancel custom cake.');
+  } catch {
+    // The API interceptor displays the request error.
   }
 }
 

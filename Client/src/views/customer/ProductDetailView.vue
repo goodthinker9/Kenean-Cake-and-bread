@@ -413,6 +413,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useBranchStore } from '../../stores/branch';
 import { useCartStore } from '../../stores/cart';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const route = useRoute();
 const router = useRouter();
@@ -472,7 +473,7 @@ async function loadProduct(branchId) {
     } else {
       otherBranchesWithStock.value = [];
     }
-  } catch (err) {
+  } catch {
     product.value = {
       product_id: parseInt(id) || 1,
       product_name: 'Chocolate Cake',
@@ -540,7 +541,7 @@ function handleAddToCart() {
   if (!product.value) return;
   const avail = typeof product.value.available === 'number' ? product.value.available : 0;
   if (avail <= 0) {
-    alert(`${product.value.product_name} is sold out at ${currentBranchName.value} branch.`);
+    toast.error(`${product.value.product_name} is sold out at ${currentBranchName.value} branch.`);
     return;
   }
 
@@ -553,7 +554,7 @@ function handleAddToCart() {
   }, branchStore.selectedBranchId, quantity.value);
 
   if (!res.success) {
-    alert(res.message);
+    toast.success(res.message);
   }
 
   router.push('/cart');

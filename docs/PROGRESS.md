@@ -1,46 +1,31 @@
-# Golden Crust — Progress Log
-> Spec Version 3.0 | Started: 2026-11-06
+# Progress
 
----
+## Current slice
 
-## Current State (pre-Slice 0)
+- **F1 Foundations** — complete
+- Branch: `feat/f1-foundations`
+- Added shared app configuration with the temporary `Bakery` brand and
+  `VITE_API_BASE_URL` support.
+- Added centralized API handling for 401, 403, 422, server, and network errors.
+- Added shared accessible toast and confirmation dialog hosts; removed native
+  alert/confirm calls.
+- Lazy-loaded routed layouts and views, removed unused starter/dead views, and
+  added ESLint.
+- Updated the app title and remaining visible brand references to use config.
+- No backend changes or new API contracts were required.
 
-### Backend (Laravel 13 / PHP 8.3)
-- **DB:** SQLite (`database/database.sqlite`) — NOT yet on Supabase PostgreSQL.
-- **Auth:** Sanctum token-auth wired up (`login`, `register`, `logout`, `user`). Works correctly.
-- **Migrations:** 10 migration files covering all 29 tables. Never run against Supabase yet.
-- **Seeder:** `DatabaseSeeder.php` populates branches, users (7 accounts), categories, products, inventory, transfers, orders, payments, notifications, audit_logs, settings. Rich and realistic.
-- **Controllers:** All 13 controllers present. Business logic partially implemented (some stubs, some full).
-- **Middleware:** `RoleAuthorizationMiddleware` registered as `admin.auth` and `role` aliases. Contains a **local/testing Super Admin fallback** (security risk — removed in Slice 1).
-- **Known issues:**
-  - `DB_CONNECTION=sqlite` in `.env` — must switch to `pgsql` pointing at Supabase.
-  - `README.md` still mentions MySQL/XAMPP.
-  - `.env.example` has no Supabase variables.
-  - Two unauthenticated public routes that must be removed later: `/auth/switch-role`, `/auth/users`.
-  - Customer-facing order/cake routes at bottom of `api.php` have **no auth middleware** (Slice 3).
-  - `config/database.php` `pgsql` block uses `sslmode=prefer`; Supabase requires `require`.
+## Completed slices
 
-### Frontend (Vue 3 + Vite + Pinia + Tailwind)
-- All views scaffolded and visually functional using fake/hardcoded state.
-- `auth.js` store seeds a **hardcoded Super Admin user object** as default state — no real auth yet (Slice 2).
-- Router guard uses `role = user?.role || 'Super Admin'` fallback — no real guard (Slice 2).
-- `api.js` Axios client correctly reads Bearer token from `localStorage`.
-- Vite proxy routes `/api` → `http://127.0.0.1:8000`.
+- **F1 Foundations**
+  - `npm run build` — passed.
+  - `npm run lint` — passed.
+  - Browser smoke: backend-backed storefront rendered data; simulated 401
+    redirected to login; simulated 403 and 422 showed toast feedback; simulated
+    network failure showed a connection toast.
+  - At 360px, verified no horizontal overflow and the 403 toast remained within
+    the viewport.
+  - `git diff --check` — passed.
 
----
+## Next
 
-## Slice History
-
-| # | Branch | Status | Date | Summary |
-|---|--------|--------|------|---------|
-| 0 | `slice/0-supabase-connection` | ✅ Done | 2026-11-06 | Supabase connection, migrate, seed, update README/.env.example |
-
----
-
-## Next Slice
-
-**Slice 1** — `slice/1-remove-dev-backdoors`
-- Remove `/auth/switch-role` and `/auth/users` routes + controller methods.
-- Remove the `local/testing Super Admin fallback` in `RoleAuthorizationMiddleware`.
-- Remove the admin role-switcher UI component from `AdminLayout.vue`.
-- Unauthenticated requests to protected routes must return 401 (no fallback).
+- F2 Auth and guards — not started; awaiting approval to proceed.

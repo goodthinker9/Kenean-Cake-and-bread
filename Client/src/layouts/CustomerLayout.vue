@@ -38,7 +38,7 @@
 
     <!-- Main Navigation Header matching Image 1, 3, 4 -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#F3E8E8] shadow-2xs">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2 sm:gap-4">
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2.5 shrink-0 group">
           <!-- SweetBakes Cupcake Logo SVG -->
@@ -58,9 +58,9 @@
           </div>
           <div>
             <div class="text-2xl font-serif font-black tracking-tight text-[#881337] leading-none">
-              Sweet<span class="text-[#E11D48]">Bakes</span>
+              {{ appConfig.brandName }}
             </div>
-            <div class="text-[10px] tracking-widest text-[#9F1239] font-medium uppercase mt-0.5">
+            <div class="hidden text-[10px] tracking-widest text-[#9F1239] font-medium uppercase mt-0.5 sm:block">
               Cakes &middot; Bread &middot; Happiness
             </div>
           </div>
@@ -127,17 +127,18 @@
         </div>
 
         <!-- Right Side: Branch Selector, Account & Cart -->
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-1 sm:space-x-3">
           <!-- Active Branch Selector Pill with Quick Switch Dropdown -->
           <div class="relative">
             <button
               @click="branchMenuOpen = !branchMenuOpen"
               title="Change active bakery branch"
-              class="flex items-center space-x-1.5 bg-[#FFF1F2] border border-[#FECDD3] px-3 py-1.5 rounded-full text-xs font-semibold text-[#881337] hover:bg-[#FFE4E6] transition shadow-2xs"
+              :aria-label="`Select branch. Current branch: ${branchName}`"
+              class="flex items-center space-x-1.5 bg-[#FFF1F2] border border-[#FECDD3] px-2 sm:px-3 py-1.5 rounded-full text-xs font-semibold text-[#881337] hover:bg-[#FFE4E6] transition shadow-2xs"
             >
               <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span>
-              <span class="font-bold">{{ branchName }}</span>
-              <span class="text-[10px] text-[#E11D48] underline ml-1">Change</span>
+              <span class="max-w-[3rem] truncate font-bold sm:max-w-none">{{ branchName }}</span>
+              <span class="ml-1 hidden text-[10px] text-[#E11D48] underline sm:inline">Change</span>
               <span class="text-[10px]">▾</span>
             </button>
 
@@ -179,13 +180,14 @@
           <div class="relative" ref="accountDropdownRef">
             <button
               @click="accountMenuOpen = !accountMenuOpen"
-              class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-[#F2D7DC] hover:border-[#E11D48] bg-white text-xs font-semibold text-[#4B1A24] transition shadow-2xs"
+              aria-label="Account menu"
+              class="flex items-center space-x-1.5 px-2 py-1.5 rounded-full border border-[#F2D7DC] hover:border-[#E11D48] bg-white text-xs font-semibold text-[#4B1A24] transition shadow-2xs sm:px-3"
             >
               <svg class="w-4 h-4 text-[#E11D48]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
-              <span>{{ authStore.user?.full_name ? authStore.user.full_name.split(' ')[0] : 'Account' }}</span>
-              <span class="text-[10px]">▾</span>
+              <span class="hidden sm:inline">{{ authStore.user?.full_name ? authStore.user.full_name.split(' ')[0] : 'Account' }}</span>
+              <span class="hidden text-[10px] sm:inline">▾</span>
             </button>
 
             <!-- Dropdown Menu -->
@@ -248,7 +250,8 @@
           <!-- Shopping Cart Pill matching Image 1, 3, 4 -->
           <router-link
             to="/cart"
-            class="relative flex items-center space-x-1.5 px-3.5 py-2 bg-[#E11D48] hover:bg-[#BE123C] text-white rounded-full text-xs font-bold transition shadow-xs group"
+            :aria-label="`Shopping cart, ${cartStore.totalItems} items`"
+            class="relative flex items-center space-x-1.5 px-2 py-2 bg-[#E11D48] hover:bg-[#BE123C] text-white rounded-full text-xs font-bold transition shadow-xs group sm:px-3.5"
           >
             <svg class="w-4 h-4 transition group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -271,13 +274,13 @@
     <div class="bg-[#FFF1F2] border-t border-[#FECDD3] py-4 text-center">
       <div class="max-w-7xl mx-auto px-4 flex items-center justify-center space-x-2 text-sm font-serif font-bold text-[#881337]">
         <span class="text-lg">💖</span>
-        <span class="text-lg font-black text-[#E11D48]">SweetBakes</span>
+        <span class="text-lg font-black text-[#E11D48]">{{ appConfig.brandName }}</span>
         <span>— Because life is sweeter with cake!</span>
         <span class="text-lg">💖</span>
       </div>
     </div>
 
-    <!-- Main SweetBakes Footer -->
+    <!-- Main bakery footer -->
     <footer class="bg-[#38121A] text-[#FDE8EC] pt-12 pb-8 border-t border-[#4A1521]">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8">
         <!-- Brand Summary (4 cols) -->
@@ -287,7 +290,7 @@
               🧁
             </div>
             <span class="text-2xl font-serif font-black text-white tracking-wide">
-              Sweet<span class="text-[#F43F5E]">Bakes</span>
+              {{ appConfig.brandName }}
             </span>
           </div>
           <p class="text-xs text-[#FBCFE8] leading-relaxed max-w-sm">
@@ -339,7 +342,7 @@
       </div>
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 pt-6 border-t border-[#4A1521] flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#F9A8D4] gap-2">
-        <p>&copy; 2026 SweetBakes Bakery & Confectionery. All rights reserved.</p>
+        <p>&copy; 2026 {{ appConfig.brandName }}. All rights reserved.</p>
         <div class="flex items-center space-x-4">
           <router-link to="/about" class="hover:text-white">Privacy Policy</router-link>
           <router-link to="/about" class="hover:text-white">Terms of Service</router-link>
@@ -385,6 +388,7 @@ import { useRouter } from 'vue-router';
 import { useBranchStore } from '../stores/branch';
 import { useCartStore } from '../stores/cart';
 import { useAuthStore } from '../stores/auth';
+import { appConfig } from '../config';
 
 const router = useRouter();
 const branchStore = useBranchStore();

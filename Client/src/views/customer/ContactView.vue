@@ -176,6 +176,8 @@
 
 <script setup>
 import { ref } from 'vue';
+import { appConfig } from '../../config';
+import { toast } from '../../services/feedback';
 
 const name = ref('');
 const email = ref('');
@@ -186,7 +188,7 @@ const sent = ref(false);
 
 function sendMessage() {
   sent.value = true;
-  alert('Thank you for contacting SweetBakes! Our team will respond within 24 hours.');
+  toast.success(`Thank you for contacting ${appConfig.brandName}! Our team will respond within 24 hours.`);
   name.value = '';
   email.value = '';
   phone.value = '';

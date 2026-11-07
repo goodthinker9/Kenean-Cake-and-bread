@@ -460,6 +460,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import api from '../../api';
+import { confirmAction } from '../../services/feedback';
 
 const branches = ref([]);
 const editingBranch = ref(null);
@@ -605,7 +606,12 @@ const submitNewDeliveryZone = async () => {
 };
 
 const deleteDeliveryZone = async (zone) => {
-  if (!confirm(`Are you sure you want to remove delivery zone "${zone.zone_name}"?`)) return;
+  const confirmed = await confirmAction({
+    title: 'Remove delivery zone?',
+    message: `Are you sure you want to remove "${zone.zone_name}"?`,
+    confirmText: 'Remove',
+  });
+  if (!confirmed) return;
   try {
     await api.delete(`/admin/branches/${editingBranch.value.branch_id}/delivery-zones/${zone.zone_id}`);
     editingBranch.value.delivery_zones = editingBranch.value.delivery_zones.filter(z => z.zone_id !== zone.zone_id);

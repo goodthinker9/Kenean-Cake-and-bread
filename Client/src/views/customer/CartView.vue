@@ -293,6 +293,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useBranchStore } from '../../stores/branch';
 import { useCartStore } from '../../stores/cart';
+import { toast } from '../../services/feedback';
 
 const branchStore = useBranchStore();
 const cartStore = useCartStore();
@@ -324,7 +325,7 @@ const total = computed(() => {
 function increaseQty(item) {
   const res = cartStore.updateQuantity(item.product_id, item.quantity + 1);
   if (res && !res.success && res.message) {
-    alert(res.message);
+    toast.success(res.message);
   }
 }
 
@@ -339,7 +340,7 @@ function switchBranch(alt) {
 function applyPromo(code) {
   if (code.toUpperCase() === 'BAKE10') {
     promoApplied.value = true;
-    alert('Coupon code BAKE10 applied! 10% discount subtracted from your total.');
+    toast.success('Coupon code BAKE10 applied! 10% discount subtracted from your total.');
   }
 }
 </script>

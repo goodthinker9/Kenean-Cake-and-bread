@@ -7,7 +7,7 @@
         <div class="px-6 py-6 border-b border-[#2C1F16]/60 flex items-center space-x-2.5">
           <span class="w-8 h-8 rounded-lg bg-[#BA5420] text-white flex items-center justify-center font-bold text-lg">G</span>
           <router-link :to="homePath" class="block">
-            <h1 class="text-xl font-serif font-bold text-[#E5B869] tracking-wide">Golden Crust</h1>
+            <h1 class="text-xl font-serif font-bold text-[#E5B869] tracking-wide">{{ appConfig.brandName }}</h1>
           </router-link>
         </div>
 
@@ -221,7 +221,7 @@
             to="/"
             class="inline-flex items-center text-xs font-semibold text-[#BA5420] bg-[#FAF2EC] border border-[#EACBB8] hover:bg-[#F6E6DC] px-3.5 py-1.5 rounded-lg transition"
           >
-            🛍️ SweetBakes Storefront
+            🛍️ {{ appConfig.brandName }} Storefront
           </router-link>
         </div>
       </header>
@@ -238,6 +238,7 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
+import { appConfig } from '../config';
 
 const router = useRouter();
 const authStore = useAuthStore();

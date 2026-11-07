@@ -224,6 +224,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useBranchStore } from '../../stores/branch';
 import api from '../../api';
+import { toast } from '../../services/feedback';
 
 const branchStore = useBranchStore();
 
@@ -268,7 +269,7 @@ function triggerUpload() {
 function onFileChange(e) {
   const files = e.target.files;
   if (files && files.length > 0) {
-    alert(`Attached ${files.length} design reference images!`);
+    toast.success(`Attached ${files.length} design reference images.`);
   }
 }
 

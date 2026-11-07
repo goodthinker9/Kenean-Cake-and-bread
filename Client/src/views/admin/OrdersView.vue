@@ -266,6 +266,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import api from '../../api';
+import { confirmAction } from '../../services/feedback';
 
 const orders = ref([]);
 const branches = ref([]);
@@ -326,13 +327,18 @@ const updateOrderStatus = async (ord, newStatus) => {
     });
     selectedOrder.value = res.data;
     await loadOrders();
-  } catch (err) {
-    alert(err.response?.data?.message || 'Failed to update order status');
+  } catch {
+    // The API interceptor displays the request error.
   }
 };
 
 const cancelOrder = async (ord) => {
-  if (confirm(`Are you sure you want to cancel order ${ord.order_number}? Reservation will be released.`)) {
+  const confirmed = await confirmAction({
+    title: 'Cancel order?',
+    message: `Cancel order ${ord.order_number}? Its reservation will be released.`,
+    confirmText: 'Cancel order',
+  });
+  if (confirmed) {
     await updateOrderStatus(ord, 'Cancelled');
   }
 };
@@ -372,7 +378,9 @@ onMounted(async () => {
   try {
     const bRes = await api.get('/branches');
     branches.value = bRes.data;
-  } catch (e) {}
+  } catch {
+    // The API interceptor displays the request error.
+  }
   loadOrders();
 });
 </script>

@@ -7,7 +7,7 @@
           🧁
         </div>
         <h2 class="text-2xl sm:text-3xl font-serif font-black text-[#4A1521]">
-          Join SweetBakes!
+          Join {{ appConfig.brandName }}!
         </h2>
         <p class="text-xs text-[#7A6B60]">
           Create your account for fast checkout, custom cake quotations, and exclusive weekend discounts.
@@ -96,7 +96,7 @@
             class="mt-0.5 rounded text-[#E11D48] focus:ring-[#E11D48]"
           />
           <label for="terms" class="ml-2 text-xs text-[#5B2934] leading-relaxed">
-            I agree to SweetBakes <a href="#" class="text-[#E11D48] underline">Terms of Service</a> and <a href="#" class="text-[#E11D48] underline">Privacy Policy</a>.
+            I agree to {{ appConfig.brandName }} <a href="#" class="text-[#E11D48] underline">Terms of Service</a> and <a href="#" class="text-[#E11D48] underline">Privacy Policy</a>.
           </label>
         </div>
 
@@ -121,6 +121,7 @@
 </template>
 
 <script setup>
+import { appConfig } from '../../config';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';

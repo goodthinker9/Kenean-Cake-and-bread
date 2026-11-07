@@ -200,6 +200,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '../../api';
+import { confirmAction, toast } from '../../services/feedback';
 
 const route = useRoute();
 const orderNumberParam = computed(() => route.params.order_number || 'ORD-1001');
@@ -262,9 +263,14 @@ function statusBadgeClass(status) {
   }
 }
 
-function cancelOrder() {
-  if (confirm('Are you sure you want to cancel this order?')) {
-    alert('Cancellation request submitted to branch manager.');
+async function cancelOrder() {
+  const confirmed = await confirmAction({
+    title: 'Cancel order?',
+    message: 'Are you sure you want to cancel this order?',
+    confirmText: 'Cancel order',
+  });
+  if (confirmed) {
+    toast.info('Cancellation request submitted to branch manager.');
   }
 }
 </script>

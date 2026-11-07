@@ -10,7 +10,7 @@
           Welcome Back!
         </h2>
         <p class="text-xs text-[#7A6B60]">
-          Sign in to your SweetBakes account to track orders and save your favorites.
+          Sign in to your {{ appConfig.brandName }} account to track orders and save your favorites.
         </p>
       </div>
 
@@ -120,6 +120,7 @@
 </template>
 
 <script setup>
+import { appConfig } from '../../config';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';
